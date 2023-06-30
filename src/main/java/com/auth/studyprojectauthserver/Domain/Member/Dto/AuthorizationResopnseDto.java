@@ -18,7 +18,6 @@ public class AuthorizationResopnseDto {
     private AuthorizationResopnseDto(){
 
     }
-
     public AuthorizationResopnseDto(String loginId, List<String> roles){
         this.loginId = loginId;
         this.roles = roles;

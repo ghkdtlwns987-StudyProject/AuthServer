@@ -13,9 +13,10 @@ import lombok.Setter;
 public class SignupResponseDto {
     private String userId;
     private String email;
+    private String nickname;
     private String name;
 
     public static SignupResponseDto of(MemberEntity memberEntity){
-        return new SignupResponseDto(memberEntity.getUserId(), memberEntity.getEmail(), memberEntity.getName());
+        return new SignupResponseDto(memberEntity.getUserId(), memberEntity.getEmail(), memberEntity.getNickname(), memberEntity.getName());
     }
 }

@@ -1,13 +1,16 @@
 package com.auth.studyprojectauthserver.Domain.Member.Service.impl;
 
+import com.auth.studyprojectauthserver.Domain.Member.Dto.MemberResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.SignupRequestDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.SignupResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
 import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
+import com.auth.studyprojectauthserver.Domain.Member.Service.inter.AuthenticationService;
 import com.auth.studyprojectauthserver.Global.Error.Exception.MemberEmailAlreadyExistsException;
+import com.auth.studyprojectauthserver.Global.Jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -39,5 +42,11 @@ public class MemberAuthenticationServiceImpl {
          */
         MemberEntity save = memberRepository.save(memberEntity);
         return SignupResponseDto.of(save);
+    }
+
+    public MemberResponseDto getMemberInfo(String email) throws Exception{
+        MemberEntity memberEntity = memberRepository.findByEmail(email);
+
+        return MemberResponseDto.of(memberEntity);
     }
 }

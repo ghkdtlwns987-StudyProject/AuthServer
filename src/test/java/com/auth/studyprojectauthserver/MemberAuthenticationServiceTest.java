@@ -1,14 +1,13 @@
 package com.auth.studyprojectauthserver;
 
+import com.auth.studyprojectauthserver.Domain.Member.Dto.MemberResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.SignupRequestDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.SignupResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
 import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
 import com.auth.studyprojectauthserver.Domain.Member.Service.impl.MemberAuthenticationServiceImpl;
 import com.auth.studyprojectauthserver.Global.Error.Exception.MemberEmailAlreadyExistsException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,25 +31,24 @@ public class MemberAuthenticationServiceTest {
 
     @Transactional
     @DisplayName("회원 가입 테스트")
-    @Test
+    @BeforeEach
     void SignupTest() throws Exception{
-        SignupRequestDto signupRequestDto = new SignupRequestDto("test@naver.com", "testName", "testPassword", "M", "010-4828-2771");
+        SignupRequestDto signupRequestDto = new SignupRequestDto("test@naver.com", "testName", "testNickName", "testPassword", "010-4828-2771");
         SignupResponseDto signupResponseDto = memberAuthenticationService.signup(signupRequestDto);
         MemberEntity memberEntities = memberRepository.findByEmail(signupResponseDto.getEmail());
 
         Assertions.assertEquals(signupRequestDto.getEmail(), memberEntities.getEmail());
         Assertions.assertEquals(signupRequestDto.getName(), memberEntities.getName());
         Assertions.assertEquals(signupRequestDto.getPwd(), memberEntities.getPwd());
-        Assertions.assertEquals(signupRequestDto.getGender(), memberEntities.getGender());
         Assertions.assertEquals(signupRequestDto.getPhone(), memberEntities.getPhone());
     }
 
     @Transactional
     @DisplayName("회원 중복 가입 테스트")
     @Test
-    void DuplicationSignupTest() throws Exception{
-        SignupRequestDto signupRequestDto1 = new SignupRequestDto("test@naver.com", "testName", "testPassword", "M", "010-4828-2771");
-        SignupRequestDto signupRequestDto2 = new SignupRequestDto("test@naver.com", "testName", "testPassword", "M", "010-4828-2771");
+    void DuplicationSignupTest() throws Exception {
+        SignupRequestDto signupRequestDto1 = new SignupRequestDto("test2@naver.com", "test2Name", "test2NickName", "testPassword", "010-4828-2771");
+        SignupRequestDto signupRequestDto2 = new SignupRequestDto("test2@naver.com", "test2Name", "test2NickName", "testPassword", "010-4828-2771");
 
         memberAuthenticationService.signup(signupRequestDto1);
 
@@ -58,5 +56,18 @@ public class MemberAuthenticationServiceTest {
             memberAuthenticationService.signup(signupRequestDto2);
         }, "MemberEmailAlreadyExistsException Called");
         Assertions.assertEquals("user email already exists", exception.getMessage());
+    }
+
+    @DisplayName("회원 정보 검색 테스트")
+    @AfterEach
+    @Test
+    void getMemberInfoTest() throws Exception{
+        MemberResponseDto memberResponseDto = memberAuthenticationService.getMemberInfo("test@naver.com");
+        MemberEntity memberEntities = memberRepository.findByEmail("test@naver.com");
+
+        Assertions.assertEquals(memberResponseDto.getEmail(), memberEntities.getEmail());
+        Assertions.assertEquals(memberResponseDto.getName(), memberEntities.getName());
+        Assertions.assertEquals(memberResponseDto.getPwd(), memberEntities.getPwd());
+        Assertions.assertEquals(memberResponseDto.getPhone(), memberEntities.getPhone());
     }
 }

@@ -6,6 +6,7 @@ import com.auth.studyprojectauthserver.Domain.Member.Service.inter.Authenticatio
 import com.auth.studyprojectauthserver.Global.Error.Exception.InvalidAuthorizationException;
 import com.auth.studyprojectauthserver.Global.Error.Exception.InvalidAuthorizationHeaderException;
 import com.auth.studyprojectauthserver.Global.Jwt.JwtTokenProvider;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.Response;
@@ -29,6 +30,7 @@ import static com.auth.studyprojectauthserver.Global.Util.AuthUtil.REFRESH_TOKEN
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
+@Api(tags = {"AuthenticationController"})
 public class AuthenticationController {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationService authenticationService;
@@ -161,6 +163,5 @@ public class AuthenticationController {
 
         long now = new Date().getTime();
         return (expiredTime - (now / 1000)) > 0;
-
     }
 }

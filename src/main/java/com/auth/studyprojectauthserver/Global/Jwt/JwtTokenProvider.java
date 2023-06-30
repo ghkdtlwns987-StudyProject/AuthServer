@@ -31,7 +31,6 @@ public class JwtTokenProvider {
     private static final long REFRESH_TOKEN_EXPIRE_TIME = Duration.ofDays(7).toMillis();    // RefreshToken 지속 시간을 7일로 설정
 
     private static final String BEARER_PREFIX = "Bearer ";
-    //private final UserDetailsService userDetailsService;
 
     @Value("${jwt.secret}")
     private String secretKey;

@@ -18,5 +18,6 @@ public class JwtFailureHandler implements AuthenticationFailureHandler {
             AuthenticationException exception
     )throws IOException, ServletException{
         log.info("Failure Handler Called..");
+
     }
 }

@@ -39,15 +39,16 @@ public class JwtAuthenticationFilterTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @DisplayName("회원가입 테스트")
+
     @BeforeEach
+    @DisplayName("회원가입 테스트")
     public void signupRequestTest() throws Exception {
         Map<String, String> input = new HashMap<>();
         input.put("email", "test@naver.com");
         input.put("pwd", "testPassword1234");
         input.put("name", "test");
-        input.put("gender", "M");
         input.put("phone", "010-4828-2771");
+        input.put("nickname", "testnickname");
 
         mockMvc.perform(post("/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -103,4 +104,23 @@ public class JwtAuthenticationFilterTest {
 
     }
 
+    @AfterEach
+    @DisplayName("회원정보 검색 테스트")
+    void getMemberInfoTest() throws Exception{
+        Map<String, String> input = new HashMap<>();
+        input.put("loginId", "test@fail.com");
+        input.put("pwd", "testPassword1234");
+
+        mockMvc.perform(post("/auth/member/test@naver.com")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
+                .andExpect(status().isOk())
+                .andExpect(header().doesNotExist("Authorization"))
+                .andExpect(header().doesNotExist("UUID_HEADER"))
+                .andExpect(header().doesNotExist("X-Expire"))
+                .andDo(print());
+
+        System.out.println("[+] 로그인 실패 테스트 FIN");
+
+    }
 }

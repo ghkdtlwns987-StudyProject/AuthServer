@@ -26,6 +26,9 @@ public class SignupRequestDto {
     private String email;
 
     @NotBlank
+    private String nickname;
+
+    @NotBlank
     private String name;
 
     @NotBlank
@@ -33,19 +36,16 @@ public class SignupRequestDto {
     private String pwd;
 
     @NotBlank
-    private String gender;
-
-    @NotBlank
     private String phone;
 
     public MemberEntity toEntity(){
         return MemberEntity.builder()
                 .email(getEmail())
+                .nickname(getNickname())
                 .name(getName())
                 .pwd(getPwd())
                 .userId(UUID.randomUUID().toString())
                 .phone(getPhone())
-                .gender(getGender())
                 .roles(Roles.USER.ordinal())
                 .createAt(new Date())
                 .build();

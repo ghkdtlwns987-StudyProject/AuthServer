@@ -1,8 +1,12 @@
 package com.auth.studyprojectauthserver.Domain.Member.Dto;
 
+import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 /**
@@ -10,12 +14,26 @@ import java.util.Date;
  */
 @Getter
 @Setter
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberResponseDto {
-    private String email;
-    private String name;
-    private String pwd;
     private String userId;
+    private String email;
+    private String nickname;
+    private String name;
+    private String phone;
+    private int roles;
     private Date createAt;
 
-    private String encPwd;
+    public static MemberResponseDto of(MemberEntity memberEntity){
+        return new MemberResponseDto(
+                memberEntity.getUserId(),
+                memberEntity.getEmail(),
+                memberEntity.getNickname(),
+                memberEntity.getName(),
+                memberEntity.getPhone(),
+                memberEntity.getRoles(),
+                memberEntity.getCreateAt()
+        );
+    }
 }

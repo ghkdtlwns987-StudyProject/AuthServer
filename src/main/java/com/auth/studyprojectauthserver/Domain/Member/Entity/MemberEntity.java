@@ -29,8 +29,8 @@ public class MemberEntity {
     @Column(name = "Password")
     private String pwd;
 
-    @Column(name = "Gender")
-    private String gender;
+    @Column(name = "nickname")
+    private String nickname;
 
     @Column(name = "name")
     private String name;
@@ -45,12 +45,12 @@ public class MemberEntity {
     private Date createAt;
 
     @Builder
-    public MemberEntity(String email, String pwd, String name, String userId, String gender, String phone, int roles, Date createAt){
+    public MemberEntity(String email, String pwd, String nickname, String name, String userId, String phone, int roles, Date createAt){
         this.email = email;
         this.pwd = pwd;
+        this.nickname = nickname;
         this.name = name;
         this.userId = userId;
-        this.gender = gender;
         this.phone = phone;
         this.roles = roles;
         this.createAt = createAt;
