@@ -4,6 +4,7 @@ import com.auth.studyprojectauthserver.Domain.Member.Dto.MemberResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
 import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
 import com.auth.studyprojectauthserver.Domain.Member.Service.inter.UserService;
+import com.auth.studyprojectauthserver.Global.Error.Exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -20,20 +21,14 @@ public class UserDetailsServiceImpl implements UserService {
     private final MemberRepository memberRepository;
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
-        MemberEntity memberEntity = memberRepository.findByEmail(email);
-        if(memberEntity == null){
-            throw new UsernameNotFoundException(email);
-        }
-
+        MemberEntity memberEntity = memberRepository.findByEmail(email).orElseThrow(() -> new MemberNotFoundException());
         return new User(memberEntity.getEmail(), memberEntity.getPwd(), true, true, true, true, new ArrayList<>());
     }
 
     @Override
     public MemberResponseDto getUserDtailsByEmail(String email){
-        MemberEntity memberEntity = memberRepository.findByEmail(email);
-        if(memberEntity == null){
-            throw new UsernameNotFoundException(email);
-        }
+        MemberEntity memberEntity = memberRepository.findByEmail(email).orElseThrow(() -> new MemberNotFoundException());
+
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 

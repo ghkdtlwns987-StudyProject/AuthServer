@@ -46,7 +46,7 @@ public class SignupRequestDto {
                 .pwd(getPwd())
                 .userId(UUID.randomUUID().toString())
                 .phone(getPhone())
-                .roles(Roles.USER.ordinal())
+                .roles(Roles.USER)
                 .createAt(new Date())
                 .build();
     }

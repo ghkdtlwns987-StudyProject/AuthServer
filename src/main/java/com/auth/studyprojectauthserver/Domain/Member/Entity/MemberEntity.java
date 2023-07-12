@@ -38,14 +38,15 @@ public class MemberEntity {
     @Column(name = "Phone")
     private String phone;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "Roles")
-    private int roles;
+    private Roles roles;
 
     @Column(name = "CreatedAt")
     private Date createAt;
 
     @Builder
-    public MemberEntity(String email, String pwd, String nickname, String name, String userId, String phone, int roles, Date createAt){
+    public MemberEntity(String email, String pwd, String nickname, String name, String userId, String phone, Roles roles, Date createAt){
         this.email = email;
         this.pwd = pwd;
         this.nickname = nickname;
@@ -54,6 +55,12 @@ public class MemberEntity {
         this.phone = phone;
         this.roles = roles;
         this.createAt = createAt;
+    }
+
+    public void update(String password, String nickname, String phone){
+        this.pwd = password;
+        this.nickname = nickname;
+        this.phone = phone;
     }
 
 }

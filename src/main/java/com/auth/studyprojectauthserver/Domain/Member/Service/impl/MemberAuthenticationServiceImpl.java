@@ -3,14 +3,13 @@ package com.auth.studyprojectauthserver.Domain.Member.Service.impl;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.MemberResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.SignupRequestDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.SignupResponseDto;
+import com.auth.studyprojectauthserver.Domain.Member.Dto.UpdateMemberDto;
 import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
 import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
-import com.auth.studyprojectauthserver.Domain.Member.Service.inter.AuthenticationService;
 import com.auth.studyprojectauthserver.Global.Error.Exception.MemberEmailAlreadyExistsException;
-import com.auth.studyprojectauthserver.Global.Jwt.JwtTokenProvider;
+import com.auth.studyprojectauthserver.Global.Error.Exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,9 +29,6 @@ public class MemberAuthenticationServiceImpl {
         if(memberRepository.existsByEmail(signupRequestDto.getEmail())){
             throw new MemberEmailAlreadyExistsException();
         }
-        //SignupResponseDto signupResponseDto = memberRepository.save(requestSignupRequestDto);
-        //return signupResponseDto;
-
         String encrpytedPassword = passwordEncoder.encode(signupRequestDto.getPwd());
         signupRequestDto.setPwd(encrpytedPassword);
         MemberEntity memberEntity = signupRequestDto.toEntity();
@@ -44,8 +40,16 @@ public class MemberAuthenticationServiceImpl {
         return SignupResponseDto.of(save);
     }
 
+    @Transactional
+    public MemberResponseDto update(String loginId, UpdateMemberDto dto) throws Exception{
+        MemberEntity memberEntity= memberRepository.findByEmail(loginId).orElseThrow(() -> new MemberNotFoundException());
+        memberEntity.update(passwordEncoder.encode(dto.getPwd()), dto.getNickname(), dto.getPhone());
+
+        return MemberResponseDto.of(memberEntity);
+    }
+
     public MemberResponseDto getMemberInfo(String email) throws Exception{
-        MemberEntity memberEntity = memberRepository.findByEmail(email);
+        MemberEntity memberEntity = memberRepository.findByEmail(email).orElseThrow(() -> new MemberNotFoundException());
 
         return MemberResponseDto.of(memberEntity);
     }

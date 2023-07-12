@@ -33,3 +33,6 @@ spring:
 
 jwt:
   secret: asdjklfasdfhj123948y128907md49810274s902187m2xio131234bo1ui23yu4mv21poi
+logging:
+  level:
+    root: error

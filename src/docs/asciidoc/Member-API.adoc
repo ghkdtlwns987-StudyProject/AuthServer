@@ -1,0 +1,19 @@
+[[Member-API]]
+== Member API
+
+[[Member-가입]]
+=== Member 가입
+operation::member-signup[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Member-중복-가입]]
+=== Member 중복 가입
+operation::member-duplicate-signup[snippets='http-request,path-parameters,http-response,response-fields']
+
+
+[[Member-정보-검색]]
+=== Member 정보 검색
+operation::member-getMemberInfo[snippets='http-request,path-parameters,http-response,response-fields']
+
+[[Member-회원수정]]
+=== Member 회원 수정
+operation::member-update[snippets='http-request,path-parameters,http-response,response-fields']

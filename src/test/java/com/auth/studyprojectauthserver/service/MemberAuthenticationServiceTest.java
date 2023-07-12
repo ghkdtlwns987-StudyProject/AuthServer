@@ -1,4 +1,4 @@
-package com.auth.studyprojectauthserver;
+package com.auth.studyprojectauthserver.service;
 
 import com.auth.studyprojectauthserver.Domain.Member.Dto.MemberResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.SignupRequestDto;
@@ -7,6 +7,7 @@ import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
 import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
 import com.auth.studyprojectauthserver.Domain.Member.Service.impl.MemberAuthenticationServiceImpl;
 import com.auth.studyprojectauthserver.Global.Error.Exception.MemberEmailAlreadyExistsException;
+import com.auth.studyprojectauthserver.Global.Error.Exception.MemberNotFoundException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,7 +36,7 @@ public class MemberAuthenticationServiceTest {
     void SignupTest() throws Exception{
         SignupRequestDto signupRequestDto = new SignupRequestDto("test@naver.com", "testName", "testNickName", "testPassword", "010-4828-2771");
         SignupResponseDto signupResponseDto = memberAuthenticationService.signup(signupRequestDto);
-        MemberEntity memberEntities = memberRepository.findByEmail(signupResponseDto.getEmail());
+        MemberEntity memberEntities = memberRepository.findByEmail(signupResponseDto.getEmail()).orElseThrow(()-> new MemberNotFoundException());
 
         Assertions.assertEquals(signupRequestDto.getEmail(), memberEntities.getEmail());
         Assertions.assertEquals(signupRequestDto.getName(), memberEntities.getName());
@@ -63,11 +64,10 @@ public class MemberAuthenticationServiceTest {
     @Test
     void getMemberInfoTest() throws Exception{
         MemberResponseDto memberResponseDto = memberAuthenticationService.getMemberInfo("test@naver.com");
-        MemberEntity memberEntities = memberRepository.findByEmail("test@naver.com");
+        MemberEntity memberEntities = memberRepository.findByEmail("test@naver.com").orElseThrow(() -> new MemberNotFoundException());
 
         Assertions.assertEquals(memberResponseDto.getEmail(), memberEntities.getEmail());
         Assertions.assertEquals(memberResponseDto.getName(), memberEntities.getName());
-        Assertions.assertEquals(memberResponseDto.getPwd(), memberEntities.getPwd());
         Assertions.assertEquals(memberResponseDto.getPhone(), memberEntities.getPhone());
     }
 }

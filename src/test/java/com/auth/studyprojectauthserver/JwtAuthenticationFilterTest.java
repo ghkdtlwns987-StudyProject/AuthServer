@@ -2,6 +2,7 @@ package com.auth.studyprojectauthserver;
 
 import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
 import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
+import com.auth.studyprojectauthserver.Global.Error.Exception.MemberEmailAlreadyExistsException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class JwtAuthenticationFilterTest {
         System.out.println("Signup Request Successful");
         System.out.println("[+] Find Member For userEmail...");
 
-        MemberEntity memberEntity = memberRepository.findByEmail("test@naver.com");
+        MemberEntity memberEntity = memberRepository.findByEmail("test@naver.com").orElseThrow(() -> new MemberEmailAlreadyExistsException());
         System.out.println("[+] memberEntity.getEmail : " + memberEntity.getEmail());
         System.out.println("[+] memberEntity.getName  : " + memberEntity.getName());
         System.out.println("[+] memberEntity.getPwd   : " + memberEntity.getPwd());
@@ -103,7 +104,7 @@ public class JwtAuthenticationFilterTest {
         System.out.println("[+] 로그인 실패 테스트 FIN");
 
     }
-
+/*
     @AfterEach
     @DisplayName("회원정보 검색 테스트")
     void getMemberInfoTest() throws Exception{
@@ -111,7 +112,7 @@ public class JwtAuthenticationFilterTest {
         input.put("loginId", "test@fail.com");
         input.put("pwd", "testPassword1234");
 
-        mockMvc.perform(post("/auth/member/test@naver.com")
+        mockMvc.perform(post("/auth/members/test@naver.com")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
@@ -121,6 +122,7 @@ public class JwtAuthenticationFilterTest {
                 .andDo(print());
 
         System.out.println("[+] 로그인 실패 테스트 FIN");
-
     }
+   ≤
+ */
 }

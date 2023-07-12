@@ -128,7 +128,7 @@ public class JwtTokenProvider {
      * @since  : 1.0
      */
     public String extractLoginId(String token){
-        token = removeTokenPrefix(token);
+        // token = removeTokenPrefix(token);
         return Jwts.parserBuilder()
                 .setSigningKey(getSecretKey(secretKey))
                 .build()
