@@ -32,27 +32,22 @@ public class MemberRestController {
     public EntityModel<ResultResponse> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) throws Exception{
         SignupResponseDto signupResponseDto = memberAuthenticationServiceImpl.signup(signupRequestDto);
         ResultResponse resultResponse = ResultResponse.of(ResultCode.REGISTER_SUCCESS, signupResponseDto);
-        // return new ResponseEntity<>(resultResponse, HttpStatus.valueOf(resultResponse.getStatus()));
 
         EntityModel<ResultResponse> entityModel = EntityModel.of(resultResponse);
         entityModel.add(linkTo(MemberRestController.class).withSelfRel());
 
-        //entityModel.add(linkTo(MemberRestController.class).slash(signupResponseDto.getEmail()).withRel("email"));
         return entityModel;
     }
 
-    @PutMapping("/members/{loginId}")
+     @PutMapping("/members/{loginId}")
     public EntityModel<ResultResponse> update(@PathVariable String loginId, @RequestBody UpdateMemberDto updateMemberDto) throws Exception{
         MemberResponseDto memberResponseDto = memberAuthenticationServiceImpl.update(loginId, updateMemberDto);
         ResultResponse resultResponse = ResultResponse.of(ResultCode.USER_UPDATE_SUCCESS, memberResponseDto);
 
         EntityModel<ResultResponse> entityModel = EntityModel.of(resultResponse);
         entityModel.add(linkTo(MemberRestController.class).withSelfRel());
-        //entityModel.add(linkTo(MemberRestController.class).slash(memberResponseDto.getNickname()).withRel("nickname"));
-        //entityModel.add(linkTo(MemberRestController.class).slash(memberResponseDto.getPhone()).withRel("phone"));
 
         return entityModel;
-        //return new ResponseEntity<>(resultResponse, HttpStatus.valueOf(resultResponse.getStatus()));
     }
 
     @GetMapping("/members/{loginId}")
@@ -66,5 +61,4 @@ public class MemberRestController {
         return entityModel;
         //return new ResponseEntity<>(resultResponse, HttpStatus.valueOf(resultResponse.getStatus()));
     }
-
 }

@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-//@TestMethodOrder(MethodOrderer.MethodName.class)
 public class MemberControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -33,10 +32,10 @@ public class MemberControllerTest {
     public void signUpTest() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode requestBody = objectMapper.createObjectNode();
-        requestBody.put("email", "amd@naver.com");
-        requestBody.put("name", "amd");
-        requestBody.put("nickname", "amd-nickname");
-        requestBody.put("pwd", "amd-Password");
+        requestBody.put("email", "test@naver.com");
+        requestBody.put("name", "test");
+        requestBody.put("nickname", "test-nickname");
+        requestBody.put("pwd", "testPassword1234");
         requestBody.put("phone", "010-1234-1234");
 
         mockMvc.perform(
@@ -73,10 +72,10 @@ public class MemberControllerTest {
     public void duplicationSignupTest() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode requestBody = objectMapper.createObjectNode();
-        requestBody.put("email", "amd@naver.com");
-        requestBody.put("name", "amd");
-        requestBody.put("nickname", "amd-nickname");
-        requestBody.put("pwd", "amd-Password");
+        requestBody.put("email", "test@naver.com");
+        requestBody.put("name", "test");
+        requestBody.put("nickname", "test-nickname");
+        requestBody.put("pwd", "testPassword1234");
         requestBody.put("phone", "010-1234-1234");
 
         mockMvc.perform(
@@ -105,7 +104,7 @@ public class MemberControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode requestBody = objectMapper.createObjectNode();
         mockMvc.perform(
-                        get("/auth/members/amd@naver.com")
+                        get("/auth/members/test@naver.com")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody.toString())
                 )
@@ -137,12 +136,12 @@ public class MemberControllerTest {
     public void updateTest() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode requestBody = objectMapper.createObjectNode();
-        requestBody.put("nickname", "amd-nickname-update");
-        requestBody.put("pwd", "amd-Password");
+        requestBody.put("nickname", "test-nickname-update");
+        requestBody.put("pwd", "test-Password");
         requestBody.put("phone", "010-1234-1234");
 
         mockMvc.perform(
-                        put("/auth/members/amd@naver.com")
+                        put("/auth/members/test@naver.com")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(requestBody.toString())
                 )

@@ -3,6 +3,7 @@ package com.auth.studyprojectauthserver.Domain.Member.Entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "member")
+@Table(name = "member_temp")
 @RequiredArgsConstructor
 public class MemberEntity {
     @Id
@@ -62,5 +63,4 @@ public class MemberEntity {
         this.nickname = nickname;
         this.phone = phone;
     }
-
 }

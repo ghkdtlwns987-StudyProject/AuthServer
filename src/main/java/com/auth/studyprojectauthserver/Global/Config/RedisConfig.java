@@ -24,7 +24,6 @@ import org.springframework.security.jackson2.SecurityJackson2Modules;
  */
 @Configuration
 public class RedisConfig implements BeanClassLoaderAware {
-
     @Value("${spring.redis.host}")
     private String host;
 

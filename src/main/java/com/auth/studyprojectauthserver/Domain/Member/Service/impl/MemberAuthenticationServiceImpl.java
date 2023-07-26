@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 /**
  * 회원 인증을 관리하는 서비스입니다.
  */
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -40,6 +41,7 @@ public class MemberAuthenticationServiceImpl {
         return SignupResponseDto.of(save);
     }
 
+
     @Transactional
     public MemberResponseDto update(String loginId, UpdateMemberDto dto) throws Exception{
         MemberEntity memberEntity= memberRepository.findByEmail(loginId).orElseThrow(() -> new MemberNotFoundException());
@@ -53,4 +55,5 @@ public class MemberAuthenticationServiceImpl {
 
         return MemberResponseDto.of(memberEntity);
     }
+
 }

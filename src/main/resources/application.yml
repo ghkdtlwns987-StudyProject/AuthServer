@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: studyProject-AuthServer
+  judge:
+    url: "http://localhost:9000"
   h2:
     console:
       enabled: true
