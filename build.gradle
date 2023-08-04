@@ -35,9 +35,6 @@ dependencies {
 	// redis 의존성
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-	// test를 위한 embedded redis
-	// testImplementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
-
 	// modelmapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 
@@ -46,7 +43,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
 
-	// openjdk-11 부터는 java EE API 가 포함되어있지 않아jaxb 패키지를 설치해야 함.
+	// openjdk-11 부터는 java EE API 가 포함되어있지 않아 jaxb 패키지를 설치해야 함.
 	implementation group: 'org.glassfish.jaxb', name: 'jaxb-runtime', version: '2.3.2'
 
 	// Spring Security

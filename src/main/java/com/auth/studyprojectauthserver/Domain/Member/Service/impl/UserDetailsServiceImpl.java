@@ -2,8 +2,8 @@ package com.auth.studyprojectauthserver.Domain.Member.Service.impl;
 
 import com.auth.studyprojectauthserver.Domain.Member.Dto.MemberResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.ResponseDto;
-import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
-import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
+//import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
+//import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
 import com.auth.studyprojectauthserver.Domain.Member.Service.inter.UserService;
 import com.auth.studyprojectauthserver.Global.Error.Exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -31,28 +31,37 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserService {
-    private final MemberRepository memberRepository;
+    @Value("${third.url}")
+    private String thirdUrl;
 
+    private final RestTemplate restTemplate;
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException{
-        MemberEntity memberEntity = memberRepository.findByEmail(email).orElseThrow(() -> new MemberNotFoundException());
-        return new User(memberEntity.getEmail(), memberEntity.getPwd(), true, true, true, true, new ArrayList<>());
-    }
+    public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException{
+        ResponseEntity<ResponseDto<MemberResponseDto>> response = restTemplate.exchange(
+                thirdUrl + "/v1/members/" + loginId,
+                HttpMethod.GET,
+                new HttpEntity<>(new HttpHeaders()),
+                new ParameterizedTypeReference<>(){}
+        );
+        log.info("Member Info : {}", response);
+        MemberResponseDto member = response.getBody().getData();
 
+        log.info("UserDetailsServiceImpl, member={}", member.getEmail());
 
-    @Override
-    public MemberResponseDto getUserDtailsByEmail(String email){
-        MemberEntity memberEntity = memberRepository.findByEmail(email).orElseThrow(() -> new MemberNotFoundException());
+        if (Objects.isNull(member)) {
+            throw new UsernameNotFoundException(loginId);
+        }
 
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        User user = new User(
+                member.getEmail(),
+                member.getPwd(),
+                member.getRoles()
+                        .stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList())
+        );
 
-        MemberResponseDto memberResponseDto = mapper.map(memberEntity, MemberResponseDto.class);
-        return memberResponseDto;
-    }
-
-    @Override
-    public Iterable<MemberEntity> getUserByAll(){
-        return memberRepository.findAll();
+        log.info("user={}", user);
+        return user;
     }
 }

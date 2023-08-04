@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Configuration
 public class GatewayConfig {
-    @Value("${spring.judge.url}")
-    public String judgeUrl;
+    @Value("${third.url}")
+    public String thirdUrl;
 }

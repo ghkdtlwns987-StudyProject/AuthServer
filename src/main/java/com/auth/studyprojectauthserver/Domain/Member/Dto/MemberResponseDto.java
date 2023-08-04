@@ -1,14 +1,6 @@
 package com.auth.studyprojectauthserver.Domain.Member.Dto;
+import lombok.*;
 
-import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
-import com.auth.studyprojectauthserver.Domain.Member.Entity.Roles;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.Column;
 import java.util.Date;
 import java.util.List;
 
@@ -17,22 +9,26 @@ import java.util.List;
  */
 @Getter
 @Setter
-@AllArgsConstructor
+@ToString
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@AllArgsConstructor
 public class MemberResponseDto {
     private String userId;
     private String email;
+    private String pwd;
     private String nickname;
     private String name;
     private String phone;
-    private Roles roles;
+    private List<String> roles;
     private Date createAt;
 
+    // DELETE 예약
+    /*
     public static MemberResponseDto of(MemberEntity memberEntity){
         return new MemberResponseDto(
                 memberEntity.getUserId(),
                 memberEntity.getEmail(),
+                memberEntity.getPwd(),
                 memberEntity.getNickname(),
                 memberEntity.getName(),
                 memberEntity.getPhone(),
@@ -40,4 +36,5 @@ public class MemberResponseDto {
                 memberEntity.getCreateAt()
         );
     }
+     */
 }

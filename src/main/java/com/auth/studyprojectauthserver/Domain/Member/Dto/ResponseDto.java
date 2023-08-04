@@ -2,15 +2,8 @@ package com.auth.studyprojectauthserver.Domain.Member.Dto;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.http.HttpStatus;
-
 import java.util.List;
-
-/**
- * 응답 데이터를 전달할 때 사용되는 DTO 입니다.
- * 응답 메시지로는 success, data, errorMessage가 전달됩니다.
- * @param <T>
- */
+import org.springframework.http.HttpStatus;
 
 public class ResponseDto<T> {
     private boolean success;
