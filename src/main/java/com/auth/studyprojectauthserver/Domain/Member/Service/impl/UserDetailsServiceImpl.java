@@ -5,6 +5,7 @@ import com.auth.studyprojectauthserver.Domain.Member.Dto.ResponseDto;
 //import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
 //import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
 import com.auth.studyprojectauthserver.Domain.Member.Service.inter.UserService;
+import com.auth.studyprojectauthserver.Global.Config.GatewayConfig;
 import com.auth.studyprojectauthserver.Global.Error.Exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,14 +32,13 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserService {
-    @Value("${third.url}")
-    private String thirdUrl;
+    private final GatewayConfig gatewayConfig;
 
     private final RestTemplate restTemplate;
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException{
         ResponseEntity<ResponseDto<MemberResponseDto>> response = restTemplate.exchange(
-                thirdUrl + "/v1/members/" + loginId,
+                gatewayConfig.getMemberUrl() + "/v1/axpi/" + loginId,
                 HttpMethod.GET,
                 new HttpEntity<>(new HttpHeaders()),
                 new ParameterizedTypeReference<>(){}

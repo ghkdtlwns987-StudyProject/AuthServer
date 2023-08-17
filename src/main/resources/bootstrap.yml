@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    url:
+      uri: http://127.0.0.1:8888
+      name: studyProject-url
+    secret:
+      uri: http://127.0.0.1:8888
+      name: studyProject-secret
+    redis:
+      uri: http://127.0.0.1:8888
+      name: studyProject-redis

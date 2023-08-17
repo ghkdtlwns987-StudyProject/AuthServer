@@ -28,7 +28,7 @@ import static com.auth.studyprojectauthserver.Global.Util.AuthUtil.REFRESH_TOKEN
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/authentication")
 @Api(tags = {"AuthenticationController"})
 public class AuthenticationController {
     private final JwtTokenProvider jwtTokenProvider;

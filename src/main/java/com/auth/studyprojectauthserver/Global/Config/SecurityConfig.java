@@ -65,7 +65,7 @@ public class SecurityConfig {
                 jwtTokenProvider,
                 redisTemplate
         );
-        jwtAuthenticationFilter.setFilterProcessesUrl("/auth/login");
+        jwtAuthenticationFilter.setFilterProcessesUrl("/authentication/login");
         jwtAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler());
 
         return jwtAuthenticationFilter;
