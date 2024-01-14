@@ -9,7 +9,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -31,12 +30,12 @@ public class RedisConfig implements BeanClassLoaderAware {
     private int port;
 
     /**
-    @Value("${spring.redis.password}")
-    private String password;
+     @Value("${spring.redis.password}")
+     private String password;
 
-    @Value("${spring.redis.database}")
-    private int database;
-*/
+     @Value("${spring.redis.database}")
+     private int database;
+     */
     private ClassLoader classLoader;
 
     /**

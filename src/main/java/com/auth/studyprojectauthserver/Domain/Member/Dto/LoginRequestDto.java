@@ -12,5 +12,5 @@ import lombok.*;
 @AllArgsConstructor
 public class LoginRequestDto {
     private String loginId;
-    private String pwd;
+    private String password;
 }

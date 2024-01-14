@@ -1,3 +1,12 @@
+REDIS_HOST: localhost
+REDIS_PORT: 6379
+AUTHENTICATION: http://localhost:8000/authentication
+AUTHORIZATION: http://localhost:8000/authorization
+MEMBER: http://localhost:8000
+JWT: asdjklfasdfhj123948y128907md49810274s902187m2xio131234bo1ui23yu4mv21poi
+LOG_LEVEL: DEBUG
+
+
 server:
   port: 9001
 
@@ -28,32 +37,31 @@ spring:
         max-active: 10
         max-idle: 10
         min-idle: 2
-    host: localhost
-    port: 6379
-  config:
-    import:
-      - classpath:/bootstrap.yml
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
 
-eureka:
-  instance:
-    instacne-id: ${spring.application.name}:${spring.application.instance_id}:${server.port}
-    client:
-      register-with-eureka: true
-      fetch-registry: true
-      service-url:
-        defaultZone: http://localhost:8761/eureka/
-      enabled: true
+#eureka:
+#  instance:
+#    instacne-id: ${spring.application.name}:${spring.application.instance_id}:${server.port}
+#    client:
+#      register-with-eureka: true
+#      fetch-registry: true
+#      service-url:
+#        defaultZone: http://localhost:8761/eureka/
+#      enabled: true
 
 
 
 jwt:
-  secret: asdjklfasdfhj123948y128907md49810274s902187m2xio131234bo1ui23yu4mv21poi
+  secret: ${JWT}
 
 auth:
   authentication:
-    url: http://localhost:8000/authentication
+    url: ${AUTHENTICATION}
   authorization:
-    url: http://localhost:8000/authorization
+    url: ${AUTHORIZATION}
 api:
   member:
-    url: http://localhost:8000/members
+    url: ${MEMBER}
+logging:
+    ${LOG_LEVEL}

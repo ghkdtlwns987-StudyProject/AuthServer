@@ -2,16 +2,10 @@ package com.auth.studyprojectauthserver.Domain.Member.Service.impl;
 
 import com.auth.studyprojectauthserver.Domain.Member.Dto.MemberResponseDto;
 import com.auth.studyprojectauthserver.Domain.Member.Dto.ResponseDto;
-//import com.auth.studyprojectauthserver.Domain.Member.Entity.MemberEntity;
-//import com.auth.studyprojectauthserver.Domain.Member.Repository.MemberRepository;
 import com.auth.studyprojectauthserver.Domain.Member.Service.inter.UserService;
 import com.auth.studyprojectauthserver.Global.Config.GatewayConfig;
-import com.auth.studyprojectauthserver.Global.Error.Exception.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -23,8 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -38,7 +30,7 @@ public class UserDetailsServiceImpl implements UserService {
     @Override
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException{
         ResponseEntity<ResponseDto<MemberResponseDto>> response = restTemplate.exchange(
-                gatewayConfig.getMemberUrl() + "/v1/axpi/" + loginId,
+                gatewayConfig.getMemberUrl() + "/api/v1/member/" + loginId,
                 HttpMethod.GET,
                 new HttpEntity<>(new HttpHeaders()),
                 new ParameterizedTypeReference<>(){}
@@ -46,15 +38,15 @@ public class UserDetailsServiceImpl implements UserService {
         log.info("Member Info : {}", response);
         MemberResponseDto member = response.getBody().getData();
 
-        log.info("UserDetailsServiceImpl, member={}", member.getEmail());
+        log.info("UserDetailsServiceImpl, member={}", member.getLoginId());
 
         if (Objects.isNull(member)) {
             throw new UsernameNotFoundException(loginId);
         }
 
         User user = new User(
-                member.getEmail(),
-                member.getPwd(),
+                member.getLoginId(),
+                member.getPassword(),
                 member.getRoles()
                         .stream()
                         .map(SimpleGrantedAuthority::new)

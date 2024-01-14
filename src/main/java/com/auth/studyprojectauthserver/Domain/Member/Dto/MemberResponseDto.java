@@ -15,26 +15,11 @@ import java.util.List;
 public class MemberResponseDto {
     private String userId;
     private String email;
-    private String pwd;
+    private String loginId;
+    private String password;
     private String nickname;
     private String name;
     private String phone;
     private List<String> roles;
     private Date createAt;
-
-    // DELETE 예약
-    /*
-    public static MemberResponseDto of(MemberEntity memberEntity){
-        return new MemberResponseDto(
-                memberEntity.getUserId(),
-                memberEntity.getEmail(),
-                memberEntity.getPwd(),
-                memberEntity.getNickname(),
-                memberEntity.getName(),
-                memberEntity.getPhone(),
-                memberEntity.getRoles(),
-                memberEntity.getCreateAt()
-        );
-    }
-     */
 }

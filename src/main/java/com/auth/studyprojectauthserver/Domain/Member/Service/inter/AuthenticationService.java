@@ -41,6 +41,4 @@ public interface AuthenticationService {
      * @param memberUuid
      */
     void logout(String memberUuid);
-
-
 }

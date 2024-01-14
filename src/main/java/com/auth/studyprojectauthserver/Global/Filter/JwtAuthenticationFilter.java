@@ -70,11 +70,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginRequestDto.getLoginId(),
-                loginRequestDto.getPwd()
+                loginRequestDto.getPassword()
         );
 
         log.info("authenticationToken.getName={}", authenticationToken.getName());
-        log.info("authenticationToken.getAuthorities-{}", authenticationToken.getAuthorities());
+        log.info("authenticationToken.getAuthorities={}", authenticationToken.getAuthorities());
         log.info("authenticationToken.getPrincipal={}", authenticationToken.getPrincipal().toString());
         log.info("authenticationToken.getDetails={}", authenticationToken.getDetails());
 

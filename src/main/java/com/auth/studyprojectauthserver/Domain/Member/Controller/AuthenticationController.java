@@ -6,7 +6,6 @@ import com.auth.studyprojectauthserver.Domain.Member.Service.inter.Authenticatio
 import com.auth.studyprojectauthserver.Global.Error.Exception.InvalidAuthorizationException;
 import com.auth.studyprojectauthserver.Global.Error.Exception.InvalidAuthorizationHeaderException;
 import com.auth.studyprojectauthserver.Global.Jwt.JwtTokenProvider;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -29,7 +28,6 @@ import static com.auth.studyprojectauthserver.Global.Util.AuthUtil.REFRESH_TOKEN
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/authentication")
-@Api(tags = {"AuthenticationController"})
 public class AuthenticationController {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationService authenticationService;
@@ -37,6 +35,7 @@ public class AuthenticationController {
 
     private static final String UUID_HEADER = "UUID_HEADER";
     private static final String X_EXPIRE_HEADER = "X-Expire";
+
     /**
      * 토큰을 재발합하는 기능입니다.
      * 추후 Redis에 저장된 데이터를 기반으로 UUID를 기반으로 사용자 정보를 추출할 예정입니다.
